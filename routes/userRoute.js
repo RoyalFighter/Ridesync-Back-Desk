@@ -29,6 +29,7 @@ const {
   addToRoom,
   getParticipant,
   getUserLocation,
+  getChatMessages,
  
 } = require("../controllers/userController");
 
@@ -53,6 +54,7 @@ router.patch("/verifyUser/:verificationToken", verifyUser);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:resetToken", resetPassword);
 router.patch("/changePassword", protect, changePassword);
+router.get("/getChatMessages/:roomId", protect,getChatMessages );
 
 router.post("/sendLoginCode/:email", sendLoginCode);
 router.post("/loginWithCode/:email", loginWithCode);

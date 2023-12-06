@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Room = require("../models/roomModel");
+const Chat = require("../models/chatModel");
 const bcrypt = require("bcryptjs");
 const { generateToken, hashToken } = require("../utils");
 var parser = require("ua-parser-js");
@@ -966,6 +967,27 @@ const getUserLocation = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+//get chat messages
+const getChatMessages = async (req, res) => {
+  try {
+    const { roomId } = req.params;
+
+    // Find the chat document for the specified room and populate messages
+    const chat = await Chat.findOne({ roomId }).populate('messages.senderId', 'name');
+
+    if (!chat) {
+      return res.status(404).json({ message: 'Chat not found for the specified room' });
+    }
+
+    // Extract and return chat messages
+    const messages = chat.messages;
+
+    res.status(200).json({ messages });
+  } catch (error) {
+    console.error('Error fetching chat messages:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 
 
@@ -999,5 +1021,6 @@ module.exports = {
   addToRoom,
   getParticipant,
   getUserLocation,
+  getChatMessages,
 };
 //hello
