@@ -967,7 +967,7 @@ const getUserLocation = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-//get chat messages
+//get chat messagesvvvvv
 const getChatMessages = async (req, res) => {
   try {
     const { roomId } = req.params;
